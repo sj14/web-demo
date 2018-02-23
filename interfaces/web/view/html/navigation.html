@@ -1,0 +1,26 @@
+{{define "navigation"}}
+
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand" href="/">P2B</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/"><i class="fa fa-home" aria-hidden="true"></i> Start</a>
+            </li>
+        {{if .LoggedIn}}
+            <li class="nav-item">
+                <a class="nav-link" href="/profile"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
+            </li>
+        {{else}}
+            <li class="nav-item">
+                <a class="nav-link" href="/login"><i class="fa fa-sign-in-alt" aria-hidden="true"></i> Login</a>
+            </li>
+        {{end}}
+        </ul>
+    </div>
+</nav>
+{{end}}

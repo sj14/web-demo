@@ -1,0 +1,20 @@
+{{define "csrf_test"}}
+{{template "header" .}}
+
+<h2>CSRF Test</h2>
+
+<form method="POST" action="/csrf">
+    Without CSRF
+    <label>Test Form</label><br/>
+    <input type="submit" class="btn btn-success" value="Test">
+</form>
+
+<form method="POST" action="/csrf">
+    With CSRF
+{{ .CSRFField }}
+    <label>Test Form</label><br/>
+    <input type="submit" class="btn btn-success" value="Test">
+</form>
+
+{{template "footer" .}}
+{{end}}

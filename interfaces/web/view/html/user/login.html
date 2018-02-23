@@ -1,0 +1,44 @@
+{{define "user_login"}}
+{{template "header" .}}
+
+<h1>Anmelden</h1>
+<hr>
+<h2>Vorhandenes Benutzerkonto</h2>
+<form method="POST" action="/login">
+{{ .CSRFField }}
+    <div class="form-group">
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                </div>
+            </div>
+            <input class="form-control" type="email" name="email" id="email" placeholder="E-Mail"
+                   value="{{.Controller.Email}}" required maxlength=100>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fa fa-key" aria-hidden="true"></i>
+                </div>
+            </div>
+            <input class="form-control" type="password" name="password" id="password" placeholder="Passwort" required
+                   minlength=8
+                   maxlength=100><br/>
+        </div>
+    </div>
+    <input type="submit" class="btn btn-success" value="anmelden">
+</form>
+<br>
+<hr>
+<h2>Neues Benutzerkonto erstellen</h2>
+<form method="GET" action="/register/applicant" style="display: inline;">
+    <input class="btn btn-outline-primary" type="submit" value="Als Fachkraft registrieren">
+</form>
+<form method="GET" action="/register/employer" style="display: inline;">
+    <input class="btn btn-outline-primary" type="submit" value="Als Gastronom registrieren">
+</form>
+{{template "footer" .}}
+{{end}}

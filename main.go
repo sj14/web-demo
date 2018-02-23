@@ -2,16 +2,18 @@ package main
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/sj14/web-demo/interfaces/web/controller"
-	"github.com/sj14/web-demo/interfaces/web/controller/userctl"
-	"github.com/sj14/web-demo/interfaces/web/controller/mainctl"
-	"github.com/sj14/web-demo/usecases"
-	"github.com/sj14/web-demo/infrastructure/repositories/database/postgres"
-	"net/http"
 	"log"
-	"github.com/gorilla/handlers"
+	"net/http"
 	"os"
+
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
+	"github.com/sj14/web-demo/infrastructure/repositories/database/postgres"
+	"github.com/sj14/web-demo/interfaces/web/controller"
+	"github.com/sj14/web-demo/interfaces/web/controller/mainctl"
+	"github.com/sj14/web-demo/interfaces/web/controller/userctl"
+	"github.com/sj14/web-demo/interfaces/web/sessions"
+	"github.com/sj14/web-demo/usecases"
 )
 
 func main() {
@@ -22,7 +24,12 @@ func main() {
 
 	userUsease := usecases.NewUserUsecases(postgresRepo)
 
-	mainCtl := mainctl.NewMainController(false, userUsease)
+	cookieStore, err := sessions.NewCookie("sj-web-demo", []byte("TODOTODOTODOTODO"))
+	if err != nil {
+		log.Fatal("Not able to create CookieStore: ", err)
+	}
+
+	mainCtl := mainctl.NewMainController(false, cookieStore, userUsease)
 
 	userCtl := userctl.NewUserController(mainCtl)
 
@@ -36,5 +43,5 @@ func main() {
 
 	routerInteractor.InitializeRoutes(router)
 	log.Println("listening on port " + os.Getenv("PORT"))
-	log.Fatal(http.ListenAndServe(":" +	os.Getenv("PORT"), handlers.RecoveryHandler()(router)))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), handlers.RecoveryHandler()(router)))
 }

@@ -78,12 +78,11 @@ func (interactor *RouterInteractor) InitializeRoutes(router *mux.Router) {
 	// Various //
 	/////////////
 
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello World!"))
-	}).Methods(http.MethodGet)
+	//router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	//	w.Write([]byte("Hello World!"))
+	//}).Methods(http.MethodGet)
 
-	// router.HandleFunc("/", interactor.mainController.Chain(
-	// 	interactor.mainController.GetHome)).Methods(http.MethodGet)
+	router.HandleFunc("/", interactor.mainController.GetHome).Methods(http.MethodGet)
 
 	// router.HandleFunc("/healty", interactor.mainController.Chain(
 	// 	interactor.mainController.GetHealthy)).Methods(http.MethodGet)

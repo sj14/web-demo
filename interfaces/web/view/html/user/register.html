@@ -1,0 +1,25 @@
+{{define "register"}}
+{{template "header" .}}
+
+<h2>Als Fachkraft Registrieren</h2>
+
+    <form method="POST" action="/register/applicant">
+    {{ .CSRFField }}
+        <label>Name:</label><br/>
+        <input type="text" name="name" required maxlength=100><br/>
+
+        <label>Postleitzahl:</label><br/>
+        <input type="number" name="zip_code" required minlength=5 maxlength=5><br/>
+
+        <label>Email:</label><br/>
+        <input type="email" name="email" required maxlength=100><br/>
+
+        <label>Password:</label><br/>
+        <input type="password" name="password" required minlength=8 maxlength=100><br/>
+        <br>
+        TODO: Newsletter Opt-In
+        <input type="submit" class="btn btn-success" value="Registrieren">
+    </form>
+
+{{template "footer" .}}
+{{end}}
