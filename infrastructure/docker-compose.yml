@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+
+  postgres:
+    image: postgres
+    # volumes:
+    #  - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8070:8080
