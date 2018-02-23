@@ -10,6 +10,7 @@ import (
 	"github.com/sj14/web-demo/infrastructure/repositories/database/postgres"
 	"net/http"
 	"log"
+	"github.com/gorilla/handlers"
 )
 
 func main() {
@@ -34,5 +35,5 @@ func main() {
 
 	routerInteractor.InitializeRoutes(router)
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":8080", handlers.RecoveryHandler()(router)))
 }
