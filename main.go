@@ -15,7 +15,7 @@ import (
 func main() {
 	fmt.Println("Hello World")
 
-	postgresRepo := postgres.NewPostgresStore("asd")
+	postgresRepo := postgres.NewPostgresStore()
 	defer postgresRepo.CloseConn()
 
 	userUsease := usecases.NewUserUsecases(postgresRepo)

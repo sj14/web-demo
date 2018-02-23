@@ -6,14 +6,16 @@ import (
 	_ "github.com/lib/pq"
 
 	"github.com/jmoiron/sqlx"
+	"os"
 )
 
 type PostgresStore struct {
 	conn   *sqlx.DB
 }
 
-func NewPostgresStore(dbfileName string) *PostgresStore {
-	db, err := sqlx.Open("postgres", "user=postgres password=example dbname=demo sslmode=disable")
+func NewPostgresStore() *PostgresStore {
+
+	db, err := sqlx.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatal(err)
 	}
