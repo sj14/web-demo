@@ -35,6 +35,6 @@ func main() {
 	)
 
 	routerInteractor.InitializeRoutes(router)
-
+	log.Println("listening on port " + os.Getenv("PORT"))
 	log.Fatal(http.ListenAndServe(":" +	os.Getenv("PORT"), handlers.RecoveryHandler()(router)))
 }
