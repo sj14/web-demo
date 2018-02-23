@@ -7,7 +7,7 @@
 <hr>
 <h2>Bild</h2>
 
-<img class="img-fluid rounded" src="data:image/jpg;base64,{{.Controller.ProfilePicture}}"
+<img class="img-fluid rounded" src="data:image/jpg;base64,{{.CtlData.ProfilePicture}}"
      alt="Profile Picture"/>
 
 <label>Erlaubt sind jpeg, png und gif (max. 1 MB):</label><br/>
@@ -34,7 +34,7 @@
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="material-icons">account_circle</i></div>
             </div>
-            <input class="form-control" type="text" name="name" id="name" value="{{.Controller.User.Name}}" required
+            <input class="form-control" type="text" name="name" id="name" value="{{.CtlData.User.Name}}" required
                    maxlength=100> <br/>
         </div>
     </div>
@@ -44,7 +44,7 @@
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="material-icons">email</i></div>
             </div>
-            <input class="form-control" type="email" name="email" id="email" value="{{.Controller.User.Email}}"
+            <input class="form-control" type="email" name="email" id="email" value="{{.CtlData.User.Email}}"
                    required
                    maxlength=100> <br/>
         </div>
@@ -56,7 +56,7 @@
                 <div class="input-group-text"><i class="material-icons">location_city</i></div>
             </div>
             <input class="form-control" type="number" name="zip_code" id="zip_code"
-                   value="{{.Controller.User.ZipCode}}"
+                   value="{{.CtlData.User.ZipCode}}"
                    required maxlength=100> <br/>
         </div>
     </div>

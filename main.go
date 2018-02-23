@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/sj14/web-demo/infrastructure/repositories/database/postgres"
 	"github.com/sj14/web-demo/interfaces/web/controller"
@@ -30,7 +29,6 @@ func main() {
 	}
 
 	mainCtl := mainctl.NewMainController(false, cookieStore, userUsease)
-
 	userCtl := userctl.NewUserController(mainCtl)
 
 	router := mux.NewRouter()
@@ -43,5 +41,5 @@ func main() {
 
 	routerInteractor.InitializeRoutes(router)
 	log.Println("listening on port " + os.Getenv("PORT"))
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), handlers.RecoveryHandler()(router)))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 }

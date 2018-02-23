@@ -1,60 +1,18 @@
 {{define "user_profile"}}
 {{template "header" .}}
-<h1>Verwaltung</h1>
+<h1>Settings</h1>
 <br>
-<hr>
-{{if or .IsEmployer .IsAdmin}}
-<h2><i class="fas fa-utensils" aria-hidden="true"></i> Eigene Gastronomie</h2>
-<form method="GET" action="/gastronome/new" style="display: inline;">
-    <button type="submit" class="btn btn-outline-success" type="submit">
-        <i class="fa fa-plus" aria-hidden="true"></i> erstellen
-    </button>
-</form>
-<form method="GET" action="/gastronome/own" style="display: inline;">
-    <button type="submit" class="btn btn-outline-primary" type="submit">
-        <i class="fa fa-list" aria-hidden="true"></i> auflisten
-    </button>
-</form>
-<br><br>
-<hr>
-<h2><i class="fa fa-briefcase" aria-hidden="true"></i> Eigene Stellenanzeigen</h2>
-<form method="GET" action="/job/new" style="display: inline;">
-    <button type="submit" class="btn btn-outline-success" type="submit" value="erstellen">
-        <i class="fa fa-plus" aria-hidden="true"></i> erstellen
-    </button>
-</form>
-<form method="GET" action="/job/own" style="display: inline;">
-    <button type="submit" class="btn btn-outline-primary" type="submit" value="auflisten">
-        <i class="fa fa-list" aria-hidden="true"></i> auflisten
-    </button>
-</form>
-<br><br>
-<hr>
-<h2><i class="fa fa-users" aria-hidden="true"></i> Eigene Fachkräfte</h2>
-<form method="GET" action="/applicant/new" style="display: inline;">
-    <button type="submit" class="btn btn-outline-success" type="submit" value="anbieten">
-        <i class="fa fa-plus" aria-hidden="true"></i> anbieten
-    </button>
-</form>
-<form method="GET" action="/applicant/own" style="display: inline;">
-    <button type="submit" class="btn btn-outline-primary" type="submit" value="auflisten">
-        <i class="fa fa-list" aria-hidden="true"></i> auflisten
-    </button>
-</form>
-<br><br>
-<hr>
-{{end}}
-<h2><i class="fa fa-user-circle" aria-hidden="true"></i> Eigenes Profil</h2>
+<h2><i class="fa fa-user-circle" aria-hidden="true"></i>Profile</h2>
 <form method="GET" action="/profile/edit" style="display: inline;">
-    <button type="submit" class="btn btn-outline-primary" type="submit" value="bearbeiten">
-        <i class="fa fa-edit" aria-hidden="true"></i> bearbeiten
+    <button type="submit" class="btn btn-outline-primary" type="submit" value="edit">
+        <i class="fa fa-edit" aria-hidden="true"></i> edit
     </button>
 </form>
 <br><br>
 <form method="POST" action="/logout">
 {{ .CSRFField }}
-    <button type="submit" type="submit" class="btn btn-outline-danger" value=" abmelden">
-        <i class="fa fa-sign-out-alt" aria-hidden="true"></i> abmelden
+    <button type="submit" type="submit" class="btn btn-outline-danger" value=" logout">
+        <i class="fa fa-sign-out-alt" aria-hidden="true"></i> logout
     </button>
 </form>
 {{template "footer" .}}

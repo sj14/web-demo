@@ -2,15 +2,15 @@
 {{template "header" .}}
 <h2>Profile</h2>
 <div>
-    ID: {{.Controller.User.Id}} <br>
-    Name: {{.Controller.User.Name}} <br>
-    Registriert seit {{.Controller.User.CreatedAt}} <br>
+    ID: {{.CtlData.User.Id}} <br>
+    Name: {{.CtlData.User.Name}} <br>
+    Registriert seit {{.CtlData.User.CreatedAt}} <br>
 
     <div class="thumbnail">
-        <img class="img-fluid rounded" src="data:image/jpg;base64,{{.Controller.ProfilePicture}}" alt="Profile Picture"/>
+        <img class="img-fluid rounded" src="data:image/jpg;base64,{{.CtlData.ProfilePicture}}" alt="Profile Picture"/>
     </div>
 
-    <form method="GET" action="/user/{{.Controller.User.Id}}/message">
+    <form method="GET" action="/user/{{.CtlData.User.Id}}/message">
         <input class="btn btn-primary" type="submit" value="Write Message">
     </form>
 </div>
