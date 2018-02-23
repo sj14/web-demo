@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"log"
 	"github.com/gorilla/handlers"
+	"os"
 )
 
 func main() {
@@ -35,5 +36,5 @@ func main() {
 
 	routerInteractor.InitializeRoutes(router)
 
-	log.Fatal(http.ListenAndServe(":8080", handlers.RecoveryHandler()(router)))
+	log.Fatal(http.ListenAndServe(":" +	os.Getenv("PORT"), handlers.RecoveryHandler()(router)))
 }
