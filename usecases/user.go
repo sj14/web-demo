@@ -9,6 +9,8 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
+	"log"
+
 	"github.com/sj14/web-demo/domain"
 )
 
@@ -22,7 +24,14 @@ type UserUsecases struct {
 
 type userRepositoryInterface interface {
 	StoreUser(user domain.User) (userID int64, err error)
+	FindUserById(id int64) (domain.User, error)
+	FindUserIdByEmail(email string) (userID int64, err error)
+	UpdateUserExceptPassword(user domain.User) error
+	UpdateUserPasswordOnly(userID int64, password string) error
 }
+
+// TODO: Validate mail address (is there an "@", etc.)
+var ErrEmailInUse = errors.New("The mail address is already registered")
 
 func (interactor *UserUsecases) CreateUser(name, email, passwordPlain string, zipCode int64) (id int64, err error) {
 
@@ -95,6 +104,50 @@ func (interactor *UserUsecases) validateUserExceptPassword(user domain.User) err
 	return nil
 }
 
+var ErrUserDisabled = errors.New("User is disabled")
+
+func (interactor *UserUsecases) LoginUser(userId int64, passwordPlain string) (bool, error) {
+	user, err := interactor.repository.FindUserById(userId)
+	if err != nil {
+		log.Println(err)
+		return false, err
+	}
+
+	if user.IsDisabled {
+		log.Println("User is disabled")
+		return false, ErrUserDisabled
+	}
+
+	passwordHash := user.PasswordHash
+	isMatch := interactor.checkPasswordHash(passwordPlain, passwordHash)
+	if isMatch == false {
+		log.Println("Incrementing Failed Login Attempts for userid: ", userId)
+		//err := interactor.applicantRepo.IncrementFailedLoginAttempts(userId)
+
+		user.FailedLogins += 1
+		err := interactor.repository.UpdateUserExceptPassword(user)
+		if err != nil {
+			log.Println("Not able to increment failed login attempts for userid", userId)
+		}
+
+		return false, errors.New("Wrong usercontroller or password")
+	} else {
+		//err := interactor.applicantRepo.ResetFailedLoginAttempts(userId)
+		user.FailedLogins = 0
+		err := interactor.repository.UpdateUserExceptPassword(user)
+		if err != nil {
+			log.Println("Not able to reset login attempts for userid", userId, err)
+		}
+		//err = interactor.applicantRepo.SetLastLogin(userId)
+		user.LastLogin = time.Now()
+		err = interactor.repository.UpdateUserExceptPassword(user)
+		if err != nil {
+			log.Println("Not able to set last login time for userid", userId)
+		}
+	}
+	return isMatch, nil
+}
+
 func (interactor *UserUsecases) DeleteUser(id int64, executingUser domain.User) error {
 	// if executingUser.Id == id || executingUser.HasAccessRole(domain.AccessRoleAdmin) {
 	// 	err := interactor.repository.DeleteUserById(id)
@@ -117,4 +170,79 @@ func randToken(len uint) string {
 	b := make([]byte, len)
 	rand.Read(b)
 	return fmt.Sprintf("%x", b)
+}
+
+func (interactor *UserUsecases) UpdateUserExceptPassword(user domain.User) error {
+	err := interactor.validateUserExceptPassword(user)
+	if err != nil {
+		return err
+	}
+	err = interactor.repository.UpdateUserExceptPassword(user)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+var ErrPasswordNotMatch = errors.New("The password was not correct")
+
+func (interactor *UserUsecases) UpdateUserPasswordOnly(userID int64, curPassPlain, newPassPlain string) error {
+	user, err := interactor.FindUserById(userID)
+	if err != nil {
+		return err
+	}
+
+	// Check if the current password was correct
+	if ok := interactor.checkPasswordHash(curPassPlain, user.PasswordHash); ok != true {
+		return ErrPasswordNotMatch
+	}
+
+	err = interactor.validatePasswordRules(newPassPlain)
+	if err != nil {
+		return err
+	}
+
+	newPassHash, err := interactor.hashPassword(newPassPlain)
+	if err != nil {
+		return err
+	}
+
+	err = interactor.repository.UpdateUserPasswordOnly(userID, newPassHash)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (interactor *UserUsecases) VerifyEmailAndActivateUser(userId int64, tokenFromUrl string) error {
+	user, err := interactor.repository.FindUserById(userId)
+	if err != nil {
+		return err
+	}
+
+	if user.EmailToken != tokenFromUrl {
+		return errors.New("Token does not match")
+	}
+
+	user.EmailVerified = true
+	err = interactor.repository.UpdateUserExceptPassword(user)
+	return err
+}
+
+func (interactor *UserUsecases) FindUserById(id int64) (domain.User, error) {
+	user, err := interactor.repository.FindUserById(id)
+	if err != nil {
+		return domain.User{}, err
+	}
+	return user, nil
+}
+
+var ErrInvalidZipCode = errors.New("Invalid ZipCode length")
+
+func (interactor *UserUsecases) FindUserIdByEmail(email string) (int64, error) {
+	userId, err := interactor.repository.FindUserIdByEmail(email)
+	if err != nil {
+		return -1, err
+	}
+	return userId, nil
 }

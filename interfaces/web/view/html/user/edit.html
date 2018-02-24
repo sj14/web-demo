@@ -1,31 +1,31 @@
 {{define "profile_edit"}}
 {{template "header" .}}
 
-<h1>Profil Bearbeiten</h1>
+<h1>Edit Profile</h1>
 
 <br>
 <hr>
-<h2>Bild</h2>
+<h2>Picture</h2>
 
 <img class="img-fluid rounded" src="data:image/jpg;base64,{{.CtlData.ProfilePicture}}"
      alt="Profile Picture"/>
 
-<label>Erlaubt sind jpeg, png und gif (max. 1 MB):</label><br/>
+<label>Allowed: jpeg, png, gif (max. 1 MB):</label><br/>
 <form class="form-inline" enctype="multipart/form-data" method="POST" action="/profile/picture">
 {{ .CSRFField }}
     <div class="input-group">
         <label class="btn btn-outline-primary">
-            Bild auswählen
+            Select Picture
             <input type="file" hidden name="upload_picture" required
                    accept="image/jpeg, image/png, image/gif">
         </label>
     </div>
-    <button type="submit" class="btn btn-success" value="speichern">speichern</button>
+    <button type="submit" class="btn btn-success" value="speichern">save</button>
 </form>
 
 <br>
 <hr>
-<h2>Allgemeine Informationen</h2>
+<h2>General Information</h2>
 <form method="POST" action="/profile/edit">
 {{ .CSRFField }}
     <div class="form-group">
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="zip_code">Postleitzahl</label>
+        <label for="zip_code">ZIP Code</label>
         <div class="input-group mb-2">
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="material-icons">location_city</i></div>
@@ -60,16 +60,16 @@
                    required maxlength=100> <br/>
         </div>
     </div>
-    <button type="submit" class="btn btn-success" value="speichern">speichern</button>
+    <button type="submit" class="btn btn-success" value="speichern">save</button>
 </form>
 <br>
 
 <hr>
-<h2>Passwort Ändern</h2>
+<h2>Change Password</h2>
 <form method="POST" action="/profile/edit/password">
 {{ .CSRFField }}
     <div class="form-group">
-        <label for="cur_password">Aktuelles Password</label>
+        <label for="cur_password">Current Password</label>
         <div class="input-group mb-2">
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="material-icons">vpn_key</i></div>
@@ -79,7 +79,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="new_password">Neues Password</label>
+        <label for="new_password">New Password</label>
         <div class="input-group mb-2">
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="material-icons">vpn_key</i></div>
@@ -88,16 +88,16 @@
                    maxlength=100>
         </div>
     </div>
-    <button type="submit" class="btn btn-success" value="speichern">speichern</button>
+    <button type="submit" class="btn btn-success" value="speichern">save</button>
 </form>
 <br>
 
 <hr>
-<h2>Konto dauerhaft löschen</h2>
+<h2>Delete Account Permanently</h2>
 <form method="POST" action="/profile/delete">
 {{ .CSRFField }}
     <button type="submit" value="löschen" class="btn btn-outline-danger">
-        <i class="material-icons">delete</i> löschen
+        <i class="material-icons">delete</i> delete
     </button>
 </form>
 {{template "footer" .}}

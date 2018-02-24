@@ -10,6 +10,7 @@ import (
 	"github.com/sj14/web-demo/infrastructure/repositories/database/postgres"
 	"github.com/sj14/web-demo/interfaces/web/controller"
 	"github.com/sj14/web-demo/interfaces/web/controller/mainctl"
+	"github.com/sj14/web-demo/interfaces/web/controller/profilectl"
 	"github.com/sj14/web-demo/interfaces/web/controller/userctl"
 	"github.com/sj14/web-demo/interfaces/web/sessions"
 	"github.com/sj14/web-demo/usecases"
@@ -29,11 +30,13 @@ func main() {
 	}
 
 	mainCtl := mainctl.NewMainController(false, cookieStore, userUsease)
+	profileCtl := profilectl.NewProfileController(mainCtl)
 	userCtl := userctl.NewUserController(mainCtl)
 
 	router := mux.NewRouter()
 	routerInteractor := controller.NewRouterInteractor(
 		mainCtl,
+		profileCtl,
 		userCtl,
 		[]byte("asd"),
 		false,

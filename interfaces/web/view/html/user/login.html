@@ -1,9 +1,9 @@
 {{define "user_login"}}
 {{template "header" .}}
 
-<h1>Anmelden</h1>
+<h1>Login</h1>
 <hr>
-<h2>Vorhandenes Benutzerkonto</h2>
+<h2>Existing Account</h2>
 <form method="POST" action="/login">
 {{ .CSRFField }}
     <div class="form-group">
@@ -24,21 +24,18 @@
                     <i class="fa fa-key" aria-hidden="true"></i>
                 </div>
             </div>
-            <input class="form-control" type="password" name="password" id="password" placeholder="Passwort" required
+            <input class="form-control" type="password" name="password" id="password" placeholder="Password" required
                    minlength=8
                    maxlength=100><br/>
         </div>
     </div>
-    <input type="submit" class="btn btn-success" value="anmelden">
+    <input type="submit" class="btn btn-success" value="login">
 </form>
 <br>
 <hr>
-<h2>Neues Benutzerkonto erstellen</h2>
-<form method="GET" action="/register/applicant" style="display: inline;">
-    <input class="btn btn-outline-primary" type="submit" value="Als Fachkraft registrieren">
-</form>
-<form method="GET" action="/register/employer" style="display: inline;">
-    <input class="btn btn-outline-primary" type="submit" value="Als Gastronom registrieren">
+<h2>New Account</h2>
+<form method="GET" action="/register/" style="display: inline;">
+    <input class="btn btn-outline-primary" type="submit" value="Register">
 </form>
 {{template "footer" .}}
 {{end}}
