@@ -19,7 +19,13 @@ func (interactor *PostController) ShowPost(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	post, err := interactor.PostUsecases.FindPost(postID)
+	post, err := interactor.PostUsecases.FindPostByID(postID)
+	if err != nil {
+		interactor.ErrorHandler(w, r, http.StatusBadRequest)
+		return
+	}
+
+	user, err := interactor.UserUsecases.FindUserById(post.UserID)
 	if err != nil {
 		interactor.ErrorHandler(w, r, http.StatusBadRequest)
 		return
@@ -27,6 +33,7 @@ func (interactor *PostController) ShowPost(w http.ResponseWriter, r *http.Reques
 
 	m := map[string]interface{}{
 		"Post": post,
+		"User": user,
 	}
 	interactor.ProcessTemplate(w, r, "post_show", m)
 }

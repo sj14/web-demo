@@ -121,7 +121,7 @@ func (s *PostgresStore) FindUserIdByEmail(email string) (int64, error) {
 }
 
 //func (s *MysqlStore) DeleteUserById(id int64) error {
-//	_, err := s.conn.Exec("DELETE FROM users WHERE id = ?", id)
+//	_, err := s.conn.Exec("DELETE FROM users WHERE id = $1", id)
 //	if err != nil {
 //		return err
 //	}

@@ -2,7 +2,7 @@
 {{template "header" .}}
 <h2>Post</h2>
 <div>
-    UserID {{.CtlData.Post.UserID}} <br>
+    <a href="/user/{{.CtlData.User.ID}}">{{.CtlData.User.Name}}</a> <br>
     {{.CtlData.Post.Text}} <br>
 {{template "footer" .}}
 {{end}}

@@ -82,17 +82,20 @@ func (interactor *RouterInteractor) InitializeRoutes(router *mux.Router) {
 	router.HandleFunc("/csrf", interactor.mainController.GetCSRFTest).Methods(http.MethodGet)
 	router.HandleFunc("/csrf", interactor.mainController.PostCSRF).Methods(http.MethodPost)
 
-	// Profile
 	router.HandleFunc("/register", interactor.profileController.ShowRegister).Methods(http.MethodGet)
 	router.HandleFunc("/register", interactor.profileController.PostRegister).Methods(http.MethodPost)
 	router.HandleFunc("/login", interactor.profileController.ShowLogin).Methods(http.MethodGet)
 	router.HandleFunc("/login", interactor.profileController.PostLogin).Methods(http.MethodPost)
 	router.HandleFunc("/logout", interactor.profileController.PostLogout).Methods(http.MethodPost)
+
 	router.HandleFunc("/profile", interactor.profileController.ShowProfile).Methods(http.MethodGet)
 	router.HandleFunc("/profile/edit", interactor.profileController.ShowEditProfile).Methods(http.MethodGet)            // TODO: Authentication
 	router.HandleFunc("/profile/edit", interactor.profileController.PostEditProfile).Methods(http.MethodPost)           // TODO: Authentication
 	router.HandleFunc("/profile/edit/password", interactor.profileController.PostEditPassword).Methods(http.MethodPost) // TODO: Authentication
-	router.HandleFunc("/post/new", interactor.postController.ShowNewPost).Methods(http.MethodGet)                       // TODO: Authentication
-	router.HandleFunc("/post/new", interactor.postController.PostNewPost).Methods(http.MethodPost)                      // TODO: Authentication
+
+	router.HandleFunc("/user/{id:[0-9]+}", interactor.userController.ShowUser).Methods(http.MethodGet)
+
+	router.HandleFunc("/post/new", interactor.postController.ShowNewPost).Methods(http.MethodGet)  // TODO: Authentication
+	router.HandleFunc("/post/new", interactor.postController.PostNewPost).Methods(http.MethodPost) // TODO: Authentication
 	router.HandleFunc("/post/{id:[0-9]+}", interactor.postController.ShowPost).Methods(http.MethodGet)
 }

@@ -50,7 +50,7 @@ func (s *PostgresStore) StorePost(post domain.Post) (postID int64, err error) {
 	return id, nil
 }
 
-func (s *PostgresStore) FindPost(postID int64) (domain.Post, error) {
+func (s *PostgresStore) FindPostByID(postID int64) (domain.Post, error) {
 	post := domain.Post{}
 	err := s.conn.Get(&post, "SELECT * FROM posts WHERE id = $1", postID)
 	if err != nil {

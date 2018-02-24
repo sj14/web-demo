@@ -2,17 +2,9 @@
 {{template "header" .}}
 <h2>Profile</h2>
 <div>
-    ID: {{.CtlData.User.Id}} <br>
+    ID: {{.CtlData.User.ID}} <br>
     Name: {{.CtlData.User.Name}} <br>
-    Registriert seit {{.CtlData.User.CreatedAt}} <br>
-
-    <div class="thumbnail">
-        <img class="img-fluid rounded" src="data:image/jpg;base64,{{.CtlData.ProfilePicture}}" alt="Profile Picture"/>
-    </div>
-
-    <form method="GET" action="/user/{{.CtlData.User.Id}}/message">
-        <input class="btn btn-primary" type="submit" value="Write Message">
-    </form>
+    Registered Since {{.CtlData.User.CreatedAt}} <br>
 </div>
 {{template "footer" .}}
 {{end}}
