@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
 	"github.com/sj14/web-demo/interfaces/web/controller/mainctl"
+	"github.com/sj14/web-demo/interfaces/web/controller/postctl"
 	"github.com/sj14/web-demo/interfaces/web/controller/profilectl"
 	"github.com/sj14/web-demo/interfaces/web/controller/userctl"
 )
@@ -15,6 +16,7 @@ func NewRouterInteractor(
 	mainController mainctl.MainController,
 	profileController profilectl.ProfileController,
 	userController userctl.UserController,
+	postController postctl.PostController,
 	csrfTokenSecret []byte,
 	inProductionMode bool,
 ) RouterInteractor {
@@ -23,6 +25,7 @@ func NewRouterInteractor(
 		mainController,
 		profileController,
 		userController,
+		postController,
 		csrfTokenSecret,
 		inProductionMode}
 }
@@ -31,6 +34,7 @@ type RouterInteractor struct {
 	mainController    mainctl.MainController
 	profileController profilectl.ProfileController
 	userController    userctl.UserController
+	postController    postctl.PostController
 	csrfTokenSecret   []byte
 	inProductionMode  bool
 }
@@ -88,4 +92,6 @@ func (interactor *RouterInteractor) InitializeRoutes(router *mux.Router) {
 	router.HandleFunc("/profile/edit", interactor.profileController.ShowEditProfile).Methods(http.MethodGet)            // TODO: Authentication
 	router.HandleFunc("/profile/edit", interactor.profileController.PostEditProfile).Methods(http.MethodPost)           // TODO: Authentication
 	router.HandleFunc("/profile/edit/password", interactor.profileController.PostEditPassword).Methods(http.MethodPost) // TODO: Authentication
+	router.HandleFunc("/post/new", interactor.postController.ShowNewPost).Methods(http.MethodGet)                       // TODO: Authentication
+	router.HandleFunc("/post/new", interactor.postController.PostNewPost).Methods(http.MethodPost)                      // TODO: Authentication
 }

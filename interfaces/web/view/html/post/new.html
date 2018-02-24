@@ -1,0 +1,13 @@
+{{define "post_new"}}
+{{template "header" .}}
+
+<h2>New Post</h2>
+
+    <form method="POST" action="/post/new">
+    {{ .CSRFField }}
+        <input type="text" name="text" required maxlength=280><br/>
+        <input type="submit" class="btn btn-success" value="Post">
+    </form>
+
+{{template "footer" .}}
+{{end}}

@@ -8,7 +8,6 @@ import (
 )
 
 func (s *PostgresStore) StoreUser(user domain.User) (userID int64, err error) {
-
 	tx, err := s.conn.Beginx()
 	if err != nil {
 		tx.Rollback()

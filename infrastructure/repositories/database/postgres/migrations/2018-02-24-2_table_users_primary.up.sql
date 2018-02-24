@@ -1,0 +1,2 @@
+ALTER TABLE "users"
+ADD CONSTRAINT "users_id" PRIMARY KEY ("id");

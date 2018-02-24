@@ -15,11 +15,13 @@ func NewMainController(
 	inProductionMode bool,
 	cookieStore sessions.Cookie,
 	userUsecases usecases.UserUsecases,
+	postUsecases usecases.PostUsecases,
 ) MainController {
 
 	return MainController{inProductionMode,
 		cookieStore,
 		userUsecases,
+		postUsecases,
 	}
 }
 
@@ -27,6 +29,7 @@ type MainController struct {
 	inProductionMode bool
 	Cookie           sessions.Cookie
 	UserUsecases     usecases.UserUsecases
+	PostUsecases     usecases.PostUsecases
 }
 
 type Interface interface{}

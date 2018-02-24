@@ -1,7 +1,7 @@
 {{define "register"}}
 {{template "header" .}}
 
-<h2>Als Fachkraft Registrieren</h2>
+<h2>Register</h2>
 
     <form method="POST" action="/register">
     {{ .CSRFField }}
@@ -18,7 +18,7 @@
         <input type="password" name="password" required minlength=8 maxlength=100><br/>
         <br>
         TODO: Newsletter Opt-In
-        <input type="submit" class="btn btn-success" value="Registrieren">
+        <input type="submit" class="btn btn-success" value="Register">
     </form>
 
 {{template "footer" .}}

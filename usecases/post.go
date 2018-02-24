@@ -1,6 +1,10 @@
 package usecases
 
-import "github.com/sj14/web-demo/domain"
+import (
+	"time"
+
+	"github.com/sj14/web-demo/domain"
+)
 
 func NewPostUsecases(postRepository postRepositoryInterface) PostUsecases {
 	return PostUsecases{repository: postRepository}
@@ -14,6 +18,7 @@ type postRepositoryInterface interface {
 	StorePost(post domain.Post) (id int64, err error)
 }
 
-func (interactor *PostUsecases) PublishPost(post domain.Post) (id int64, err error) {
-	return interactor.repository.StorePost(post)
+func (interactor *PostUsecases) PublishPost(userID int64, text string, time time.Time) (id int64, err error) {
+	p := domain.Post{UserID: userID, Text: text, CreatedAt: time, UpdatedAt: time}
+	return interactor.repository.StorePost(p)
 }

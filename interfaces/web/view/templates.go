@@ -19,6 +19,9 @@ var (
 		"interfaces/web/view/html/user/profile.html",
 		"interfaces/web/view/html/user/edit.html",
 
+		// Post
+		"interfaces/web/view/html/post/new.html",
+
 		// HTTP Status
 		"interfaces/web/view/html/status/400_BadRequest.html",
 		"interfaces/web/view/html/status/401_Unauthorized.html",
