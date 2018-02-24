@@ -1,10 +1,19 @@
 {{define "user_show"}}
 {{template "header" .}}
-<h2>Profile</h2>
-<div>
-    ID: {{.CtlData.User.ID}} <br>
-    Name: {{.CtlData.User.Name}} <br>
-    Registered Since {{.CtlData.User.CreatedAt}} <br>
-</div>
+
+<script>
+    window.limit = 1;
+    window.offset = 0;
+    window.url = "/user/{{.CtlData.User.ID}}/posts/?{{.CtlData.UrlQuery}}"
+</script>
+
+<script src="/static/js/load_more.js"></script>
+
+<h2>{{.CtlData.User.Name}}</h2>
+    {{template "posts_list" .}}
+<br>
+<span class="badge badge-secondary" id="txt-no_more">No more posts found</span>
+<br>
+<button id="btn-more" type="button" class="btn btn-outline-info" onclick="loadMore()">Load more posts</button>
 {{template "footer" .}}
 {{end}}

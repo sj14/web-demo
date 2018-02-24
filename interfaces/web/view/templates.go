@@ -22,6 +22,7 @@ var (
 		// Post
 		"interfaces/web/view/html/post/show.html",
 		"interfaces/web/view/html/post/new.html",
+		"interfaces/web/view/html/post/list.html",
 
 		// HTTP Status
 		"interfaces/web/view/html/status/400_BadRequest.html",

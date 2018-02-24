@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -18,8 +17,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello World")
-
 	postgresRepo := postgres.NewPostgresStore()
 	defer postgresRepo.CloseConn()
 

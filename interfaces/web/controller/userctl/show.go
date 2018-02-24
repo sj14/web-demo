@@ -30,6 +30,8 @@ func (interactor *UserController) ShowUser(w http.ResponseWriter, r *http.Reques
 
 	m := map[string]interface{}{
 		"User": user,
+		//"Limit":    1,
+		"UrlQuery": r.URL.RawQuery,
 	}
 	interactor.ProcessTemplate(w, r, "user_show", m)
 }

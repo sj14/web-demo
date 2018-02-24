@@ -17,6 +17,7 @@ type PostUsecases struct {
 type postRepositoryInterface interface {
 	StorePost(post domain.Post) (id int64, err error)
 	FindPostByID(postID int64) (domain.Post, error)
+	FindPostsByUserID(userID int64, limit, offset int64) ([]*domain.Post, error)
 }
 
 func (interactor *PostUsecases) PublishPost(userID int64, text string, time time.Time) (id int64, err error) {
@@ -26,4 +27,11 @@ func (interactor *PostUsecases) PublishPost(userID int64, text string, time time
 
 func (interactor *PostUsecases) FindPostByID(postID int64) (domain.Post, error) {
 	return interactor.repository.FindPostByID(postID)
+}
+
+func (interactor *PostUsecases) FindPostsByUserID(userID int64, limit, offset int64) ([]*domain.Post, error) {
+	if limit > 25 {
+		limit = 25
+	}
+	return interactor.repository.FindPostsByUserID(userID, limit, offset)
 }
