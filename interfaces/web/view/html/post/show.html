@@ -1,0 +1,8 @@
+{{define "post_show"}}
+{{template "header" .}}
+<h2>Post</h2>
+<div>
+    UserID {{.CtlData.Post.UserID}} <br>
+    {{.CtlData.Post.Text}} <br>
+{{template "footer" .}}
+{{end}}
