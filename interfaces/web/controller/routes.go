@@ -94,4 +94,5 @@ func (interactor *RouterInteractor) InitializeRoutes(router *mux.Router) {
 	router.HandleFunc("/profile/edit/password", interactor.profileController.PostEditPassword).Methods(http.MethodPost) // TODO: Authentication
 	router.HandleFunc("/post/new", interactor.postController.ShowNewPost).Methods(http.MethodGet)                       // TODO: Authentication
 	router.HandleFunc("/post/new", interactor.postController.PostNewPost).Methods(http.MethodPost)                      // TODO: Authentication
+	router.HandleFunc("/post/{id:[0-9]+}", interactor.postController.ShowPost).Methods(http.MethodGet)
 }

@@ -20,6 +20,7 @@ var (
 		"interfaces/web/view/html/user/edit.html",
 
 		// Post
+		"interfaces/web/view/html/post/show.html",
 		"interfaces/web/view/html/post/new.html",
 
 		// HTTP Status

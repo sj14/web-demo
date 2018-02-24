@@ -49,3 +49,14 @@ func (s *PostgresStore) StorePost(post domain.Post) (postID int64, err error) {
 	tx.Commit()
 	return id, nil
 }
+
+func (s *PostgresStore) FindPost(postID int64) (domain.Post, error) {
+	post := domain.Post{}
+	err := s.conn.Get(&post, "SELECT * FROM posts WHERE id = $1", postID)
+	if err != nil {
+		log.Println(err)
+		return domain.Post{}, err
+	}
+
+	return post, nil
+}
