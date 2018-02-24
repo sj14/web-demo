@@ -50,9 +50,5 @@ func (interactor *PostController) GetPostsList(w http.ResponseWriter, r *http.Re
 		//"LimitAndOffset": 1,
 	}
 
-	//if len(posts) == 0 {
-	//	w.WriteHeader(http.StatusNoContent)
-	//	return
-	//}
 	interactor.ProcessTemplate(w, r, "posts_list", m)
 }
