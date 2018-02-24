@@ -38,7 +38,7 @@ func (interactor *MainController) ProcessTemplate(w http.ResponseWriter, r *http
 	warningFlashesMsgs := interactor.Cookie.PopFlashesWarning(w, r)
 	dangerFlashesMsgs := interactor.Cookie.PopFlashesDanger(w, r)
 
-	loggedIn := false // interactor.Cookie.IsLoggedIn(w, r)
+	loggedIn := interactor.Cookie.IsLoggedIn(w, r)
 
 	payload := struct {
 		CtlData        Interface

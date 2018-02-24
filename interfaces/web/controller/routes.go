@@ -83,6 +83,7 @@ func (interactor *RouterInteractor) InitializeRoutes(router *mux.Router) {
 	router.HandleFunc("/register", interactor.profileController.PostRegister).Methods(http.MethodPost)
 	router.HandleFunc("/login", interactor.profileController.ShowLogin).Methods(http.MethodGet)
 	router.HandleFunc("/login", interactor.profileController.PostLogin).Methods(http.MethodPost)
+	router.HandleFunc("/logout", interactor.profileController.PostLogout).Methods(http.MethodPost)
 	router.HandleFunc("/profile", interactor.profileController.ShowProfile).Methods(http.MethodGet)
 	router.HandleFunc("/profile/edit", interactor.profileController.ShowEditProfile).Methods(http.MethodGet)            // TODO: Authentication
 	router.HandleFunc("/profile/edit", interactor.profileController.PostEditProfile).Methods(http.MethodPost)           // TODO: Authentication
