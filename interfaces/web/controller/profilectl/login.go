@@ -7,7 +7,7 @@ import (
 
 	"log"
 
-	"gitlab.com/sj14/web-clean/src/usecases"
+	"github.com/sj14/web-demo/usecases"
 )
 
 func (interactor *ProfileController) ShowLogin(w http.ResponseWriter, r *http.Request) {
