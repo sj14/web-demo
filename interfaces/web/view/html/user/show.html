@@ -2,7 +2,7 @@
 {{template "header" .}}
 
 <script>
-    window.limit = 1;
+    window.limit = 10;
     window.offset = 0;
     window.url = "/user/{{.CtlData.User.ID}}/posts/?{{.CtlData.UrlQuery}}"
 </script>
@@ -10,6 +10,9 @@
 <script src="/static/js/load_more.js"></script>
 
 <h2>{{.CtlData.User.Name}}</h2>
+<div class="thumbnail">
+    <img class="img-fluid rounded" src="data:image/jpg;base64,{{.CtlData.ProfilePicture}}" alt="Profile Picture"/>
+</div>
     {{template "posts_list" .}}
 <br>
 <span class="badge badge-secondary" id="txt-no_more">No more posts found</span>

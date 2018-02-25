@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/sj14/web-demo/infrastructure/repositories/blobs/filesystem"
 	"github.com/sj14/web-demo/infrastructure/repositories/database/postgres"
 	"github.com/sj14/web-demo/interfaces/web/controller"
 	"github.com/sj14/web-demo/interfaces/web/controller/mainctl"
@@ -20,15 +21,18 @@ func main() {
 	postgresRepo := postgres.NewPostgresStore()
 	defer postgresRepo.CloseConn()
 
+	fsRepo := filesystem.NewFilesystemStore()
+
 	userUsecases := usecases.NewUserUsecases(postgresRepo)
 	postUsecases := usecases.NewPostUsecases(postgresRepo)
+	imageUsecases := usecases.NewImageUsecases(fsRepo)
 
 	cookieStore, err := sessions.NewCookie("sj-web-demo", []byte("TODOTODOTODOTODO"))
 	if err != nil {
 		log.Fatal("Not able to create CookieStore: ", err)
 	}
 
-	mainCtl := mainctl.NewMainController(false, cookieStore, userUsecases, postUsecases)
+	mainCtl := mainctl.NewMainController(false, cookieStore, userUsecases, postUsecases, imageUsecases)
 	profileCtl := profilectl.NewProfileController(mainCtl)
 	userCtl := userctl.NewUserController(mainCtl)
 	postCtl := postctl.NewPostController(mainCtl)

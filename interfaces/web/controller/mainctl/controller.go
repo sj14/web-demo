@@ -16,12 +16,14 @@ func NewMainController(
 	cookieStore sessions.Cookie,
 	userUsecases usecases.UserUsecases,
 	postUsecases usecases.PostUsecases,
+	imageUsecases usecases.ImageUsecases,
 ) MainController {
 
 	return MainController{inProductionMode,
 		cookieStore,
 		userUsecases,
 		postUsecases,
+		imageUsecases,
 	}
 }
 
@@ -30,6 +32,7 @@ type MainController struct {
 	Cookie           sessions.Cookie
 	UserUsecases     usecases.UserUsecases
 	PostUsecases     usecases.PostUsecases
+	ImageUsecases    usecases.ImageUsecases
 }
 
 type Interface interface{}

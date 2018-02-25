@@ -7,6 +7,8 @@ import (
 
 	"log"
 
+	"encoding/base64"
+
 	"github.com/gorilla/mux"
 )
 
@@ -28,10 +30,17 @@ func (interactor *UserController) ShowUser(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
+	profilePicture, err := interactor.ImageUsecases.RetrieveUserProfilePicture(user.ID)
+	if err != nil {
+		log.Println(err)
+	}
+
+	profilePictureBase64 := base64.StdEncoding.EncodeToString(profilePicture)
+
 	m := map[string]interface{}{
-		"User": user,
-		//"Limit":    1,
-		"UrlQuery": r.URL.RawQuery,
+		"User":           user,
+		"UrlQuery":       r.URL.RawQuery,
+		"ProfilePicture": profilePictureBase64,
 	}
 	interactor.ProcessTemplate(w, r, "user_show", m)
 }
