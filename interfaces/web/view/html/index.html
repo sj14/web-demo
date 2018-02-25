@@ -9,13 +9,24 @@
 
 <script src="/static/js/load_more.js"></script>
 
-<h1>Write a new post</h1>
 
+<h1>Write a new post</h1>
+{{if .LoggedIn}}
 <form method="POST" action="/post/new">
 {{ .CSRFField }}
     <input type="text" name="text" style="width:85%" required autocomplete="off" maxlength=280>
     <input type="submit" class="btn btn-outline-success" value="Post">
 </form>
+{{else}}
+<p class="text-warning">You have to be logged in to post a message</p>
+<form method="POST" action="/post/new">
+    <fieldset disabled>
+    {{ .CSRFField }}
+        <input type="text" name="text" style="width:85%" required autocomplete="off" maxlength=280>
+        <input type="submit" class="btn btn-outline-success" value="Post">
+    </fieldset>
+</form>
+{{end}}
 <hr>
 
 <h1>Latest Posts</h1>
