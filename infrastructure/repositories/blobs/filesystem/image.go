@@ -3,7 +3,7 @@ package filesystem
 import (
 	"strconv"
 
-	"gitlab.com/sj14/web-clean/src/infrastructure/repositories/blobs"
+	"github.com/sj14/web-demo/infrastructure/repositories/blobs"
 )
 
 func (interactor *FilesystemStore) StoreUserProfilePicture(userId int64, dat []byte) (int64, error) {
