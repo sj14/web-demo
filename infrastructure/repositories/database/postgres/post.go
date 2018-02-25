@@ -63,7 +63,7 @@ func (s *PostgresStore) FindPostByID(postID int64) (domain.Post, error) {
 
 func (s *PostgresStore) FindPostsByUserID(userID int64, limit, offset int64) ([]*domain.Post, error) {
 	posts := []*domain.Post{}
-	err := s.conn.Select(&posts, "SELECT * FROM posts WHERE user_id = $1 LIMIT $2 OFFSET $3", userID, limit, offset)
+	err := s.conn.Select(&posts, "SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC LIMIT $2 OFFSET $3", userID, limit, offset)
 	if err != nil {
 		return []*domain.Post{}, err
 	}
