@@ -4,8 +4,11 @@ import (
 	"log"
 	"net/http"
 
+	"encoding/json"
+
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
+	"github.com/sj14/web-demo/interfaces/graphql"
 	"github.com/sj14/web-demo/interfaces/web/controller/mainctl"
 	"github.com/sj14/web-demo/interfaces/web/controller/postctl"
 	"github.com/sj14/web-demo/interfaces/web/controller/profilectl"
@@ -100,4 +103,9 @@ func (interactor *RouterInteractor) InitializeRoutes(router *mux.Router) {
 	router.HandleFunc("/post/new", interactor.postController.ShowNewPost).Methods(http.MethodGet)       // TODO: Authentication
 	router.HandleFunc("/post/new", interactor.postController.PostNewPost).Methods(http.MethodPost)      // TODO: Authentication
 	router.HandleFunc("/post/{id:[0-9]+}", interactor.postController.ShowPost).Methods(http.MethodGet)
+
+	router.HandleFunc("/graphql", func(w http.ResponseWriter, r *http.Request) {
+		result := webdemogql.ExecuteQuery(r.URL.Query().Get("query"), webdemogql.Schema)
+		json.NewEncoder(w).Encode(result)
+	})
 }
