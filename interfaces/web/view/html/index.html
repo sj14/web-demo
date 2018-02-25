@@ -8,7 +8,17 @@
 </script>
 
 <script src="/static/js/load_more.js"></script>
-        <h1>Latest Posts</h1>
+
+<h1>Write a new post</h1>
+
+<form method="POST" action="/post/new">
+{{ .CSRFField }}
+    <input type="text" name="text" style="width:85%" required autocomplete="off" maxlength=280>
+    <input type="submit" class="btn btn-outline-success" value="Post">
+</form>
+<hr>
+
+<h1>Latest Posts</h1>
 
 {{template "posts_list" .}}
 <br>
