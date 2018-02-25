@@ -1,10 +1,19 @@
 {{define "index"}}
 {{template "header" .}}
 
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document <i class="material-icons">vpn_key</i> as a way to quickly start any new project.
-            <br> All you get is this text and a mostly barebones HTML document.
-        </p>
+<script>
+    window.limit = 10;
+    window.offset = 0;
+    window.url = "/post/latest?{{.CtlData.UrlQuery}}"
+</script>
 
+<script src="/static/js/load_more.js"></script>
+        <h1>Latest Posts</h1>
+
+{{template "posts_list" .}}
+<br>
+<span class="badge badge-secondary" id="txt-no_more">No more posts found</span>
+<br>
+<button id="btn-more" type="button" class="btn btn-outline-info" onclick="loadMore()">Load more posts</button>
 {{template "footer" .}}
 {{end}}

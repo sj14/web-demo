@@ -69,3 +69,12 @@ func (s *PostgresStore) FindPostsByUserID(userID int64, limit, offset int64) ([]
 	}
 	return posts, nil
 }
+
+func (s *PostgresStore) FindNewestPosts(limit, offset int64) ([]*domain.Post, error) {
+	posts := []*domain.Post{}
+	err := s.conn.Select(&posts, "SELECT * FROM posts ORDER BY created_at DESC LIMIT $1 OFFSET $2", limit, offset)
+	if err != nil {
+		return []*domain.Post{}, err
+	}
+	return posts, nil
+}

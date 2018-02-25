@@ -96,7 +96,8 @@ func (interactor *RouterInteractor) InitializeRoutes(router *mux.Router) {
 	router.HandleFunc("/user/{id:[0-9]+}", interactor.userController.ShowUser).Methods(http.MethodGet)
 	router.HandleFunc("/user/{id:[0-9]+}/posts", interactor.postController.GetPostsList).Methods(http.MethodGet)
 
-	router.HandleFunc("/post/new", interactor.postController.ShowNewPost).Methods(http.MethodGet)  // TODO: Authentication
-	router.HandleFunc("/post/new", interactor.postController.PostNewPost).Methods(http.MethodPost) // TODO: Authentication
+	router.HandleFunc("/post/latest", interactor.postController.GetPostsLatest).Methods(http.MethodGet) // TODO: Authentication
+	router.HandleFunc("/post/new", interactor.postController.ShowNewPost).Methods(http.MethodGet)       // TODO: Authentication
+	router.HandleFunc("/post/new", interactor.postController.PostNewPost).Methods(http.MethodPost)      // TODO: Authentication
 	router.HandleFunc("/post/{id:[0-9]+}", interactor.postController.ShowPost).Methods(http.MethodGet)
 }

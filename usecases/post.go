@@ -18,6 +18,7 @@ type postRepositoryInterface interface {
 	StorePost(post domain.Post) (id int64, err error)
 	FindPostByID(postID int64) (domain.Post, error)
 	FindPostsByUserID(userID int64, limit, offset int64) ([]*domain.Post, error)
+	FindNewestPosts(limit, offset int64) ([]*domain.Post, error)
 }
 
 func (interactor *PostUsecases) PublishPost(userID int64, text string, time time.Time) (id int64, err error) {
@@ -34,4 +35,11 @@ func (interactor *PostUsecases) FindPostsByUserID(userID int64, limit, offset in
 		limit = 25
 	}
 	return interactor.repository.FindPostsByUserID(userID, limit, offset)
+}
+
+func (interactor *PostUsecases) FindNewestPosts(limit, offset int64) ([]*domain.Post, error) {
+	if limit > 25 {
+		limit = 25
+	}
+	return interactor.repository.FindNewestPosts(limit, offset)
 }
