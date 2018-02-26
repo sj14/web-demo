@@ -1,7 +1,13 @@
 {{define "post_show"}}
 {{template "header" .}}
 <h2>Post</h2>
-    <a href="/user/{{.CtlData.User.ID}}">{{.CtlData.User.Name}}</a> <br>
-    {{.CtlData.Post.Text}} <br>
+<div class="card">
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <p>{{.CtlData.Post.Text}}</p>
+            <footer class="blockquote-footer"><cite title="User"><a href="/user/{{.CtlData.Post.UserID}}">User {{.CtlData.Post.UserID}}</a> </cite>{{.CtlData.Post.CreatedAt}}</footer>
+        </blockquote>
+    </div>
+</div>
 {{template "footer" .}}
 {{end}}
