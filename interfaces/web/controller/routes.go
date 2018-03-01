@@ -21,6 +21,7 @@ func NewRouterInteractor(
 	userController userctl.UserController,
 	postController postctl.PostController,
 	csrfTokenSecret []byte,
+	projectName string,
 	inProductionMode bool,
 ) RouterInteractor {
 
@@ -30,6 +31,7 @@ func NewRouterInteractor(
 		userController,
 		postController,
 		csrfTokenSecret,
+		projectName,
 		inProductionMode}
 }
 
@@ -39,6 +41,7 @@ type RouterInteractor struct {
 	userController    userctl.UserController
 	postController    postctl.PostController
 	csrfTokenSecret   []byte
+	projectName       string
 	inProductionMode  bool
 }
 
@@ -60,7 +63,7 @@ func (interactor *RouterInteractor) InitializeRoutes(router *mux.Router) {
 
 	CSRF := csrf.Protect(
 		[]byte(interactor.csrfTokenSecret),
-		csrf.CookieName("sj-web-demo_csrf"),
+		csrf.CookieName(interactor.projectName+"_csrf"),
 		csrf.Secure(interactor.inProductionMode), // if in Production mode, secure is set to true
 		csrf.ErrorHandler(http.HandlerFunc(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			interactor.mainController.Cookie.AddFlashDanger(w, r, "CSRF authentification failed")

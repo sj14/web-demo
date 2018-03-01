@@ -17,6 +17,8 @@ import (
 	"github.com/sj14/web-demo/usecases"
 )
 
+const projectName = "sj-web-demo"
+
 var (
 	port         string
 	dbURL        string
@@ -43,7 +45,7 @@ func main() {
 	postUsecases := usecases.NewPostUsecases(postgresRepo)
 	imageUsecases := usecases.NewImageUsecases(fsRepo)
 
-	cookieStore, err := sessions.NewCookie("sj-web-demo", []byte("TODOTODOTODOTODO"))
+	cookieStore, err := sessions.NewCookie(projectName, []byte("TODOTODOTODOTODO"))
 	if err != nil {
 		log.Fatal("Not able to create CookieStore: ", err)
 	}
