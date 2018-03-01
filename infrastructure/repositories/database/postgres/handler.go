@@ -7,16 +7,14 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattes/migrate/source/file"
-
-	"os"
 )
 
 type PostgresStore struct {
-	conn   *sqlx.DB
+	conn *sqlx.DB
 }
 
-func NewPostgresStore() *PostgresStore {
-	conn, err := sqlx.Open("postgres", os.Getenv("DATABASE_URL"))
+func NewPostgresStore(dbURL string) *PostgresStore {
+	conn, err := sqlx.Open("postgres", dbURL)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -26,12 +24,9 @@ func NewPostgresStore() *PostgresStore {
 		log.Fatalf("Failed to ping database: %v", err)
 	}
 
-
 	postgresHandler := &PostgresStore{conn}
 	return postgresHandler
 }
-
-
 
 func (s *PostgresStore) CloseConn() {
 	s.conn.Close()

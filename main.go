@@ -17,8 +17,24 @@ import (
 	"github.com/sj14/web-demo/usecases"
 )
 
+var (
+	port         string
+	dbURL        string
+	sys          string
+	inProduction bool
+)
+
+func init() {
+	port = getenv("PORT", "8080")
+	dbURL = getenv("DATABASE_URL", "user=postgres password=example dbname=demo sslmode=disable")
+	sys = getenv("SYS", "DEV")
+	if sys == "PROD" {
+		inProduction = true
+	}
+}
+
 func main() {
-	postgresRepo := postgres.NewPostgresStore()
+	postgresRepo := postgres.NewPostgresStore(dbURL)
 	defer postgresRepo.CloseConn()
 
 	fsRepo := filesystem.NewFilesystemStore()
@@ -44,10 +60,19 @@ func main() {
 		userCtl,
 		postCtl,
 		[]byte("asd"),
-		false,
+		inProduction,
 	)
 
 	routerInteractor.InitializeRoutes(router)
-	log.Println("listening on port " + os.Getenv("PORT"))
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
+	log.Println("listening on port " + port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
+}
+
+// https://stackoverflow.com/a/40326580/7125878
+func getenv(key, fallback string) string {
+	value := os.Getenv(key)
+	if len(value) == 0 {
+		return fallback
+	}
+	return value
 }
