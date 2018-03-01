@@ -20,16 +20,18 @@ import (
 const projectName = "sj-web-demo"
 
 var (
+	inProduction bool
 	port         string
 	dbURL        string
+	cookiePass   string
 	sys          string
-	inProduction bool
 )
 
 func init() {
 	port = getenv("PORT", "8080")
 	dbURL = getenv("DATABASE_URL", "user=postgres password=example dbname=demo sslmode=disable")
 	sys = getenv("SYS", "DEV")
+	cookiePass = getenv("COOKIE_PASS", "CHANGEMECHANGEMECHANGEME")
 	if sys == "PROD" {
 		inProduction = true
 	}
@@ -45,7 +47,7 @@ func main() {
 	postUsecases := usecases.NewPostUsecases(postgresRepo)
 	imageUsecases := usecases.NewImageUsecases(fsRepo)
 
-	cookieStore, err := sessions.NewCookie(projectName, []byte("TODOTODOTODOTODO"))
+	cookieStore, err := sessions.NewCookie(projectName, []byte(cookiePass))
 	if err != nil {
 		log.Fatal("Not able to create CookieStore: ", err)
 	}
