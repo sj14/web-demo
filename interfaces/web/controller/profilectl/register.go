@@ -3,8 +3,6 @@ package profilectl
 import (
 	"net/http"
 
-	"strconv"
-
 	"log"
 
 	"github.com/sj14/web-demo/usecases"
@@ -27,29 +25,19 @@ func (interactor *ProfileController) ShowRegister(w http.ResponseWriter, r *http
 func (interactor *ProfileController) PostRegister(w http.ResponseWriter, r *http.Request) {
 	type RegisterForm struct {
 		Name          string
-		ZIPCodeStr    string
 		Email         string
 		PasswordPlain string
 	}
 
 	details := RegisterForm{
 		Name:          r.FormValue("name"),
-		ZIPCodeStr:    r.FormValue("zip_code"),
 		Email:         r.FormValue("email"),
 		PasswordPlain: r.FormValue("password"),
 	}
 
-	zipCodeInt, err := strconv.ParseInt(details.ZIPCodeStr, 10, 64)
-	if err != nil {
-		interactor.Cookie.AddFlashDanger(w, r, "Die Registrierung ist fehlgeschlagen")
-		interactor.ErrorHandler(w, r, http.StatusInternalServerError)
-		return
-	}
-
-	_, err = interactor.MainController.UserUsecases.CreateUser(details.Name, details.Email, details.PasswordPlain, zipCodeInt)
+	_, err := interactor.MainController.UserUsecases.CreateUser(details.Name, details.Email, details.PasswordPlain)
 
 	if err != nil {
-
 		if err == usecases.ErrEmailInUse {
 			interactor.Cookie.AddFlashDanger(w, r, "Die Mailaddresse wird bereits verwendet")
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
@@ -60,7 +48,7 @@ func (interactor *ProfileController) PostRegister(w http.ResponseWriter, r *http
 		}
 	}
 
-	interactor.Cookie.AddFlashSuccess(w, r, "Sie haben sich erfolgreich registriert. Bitte überprüfen Sie Ihr Mailkonto zum aktivieren des Kontos.")
+	interactor.Cookie.AddFlashSuccess(w, r, "Successfully registered")
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 
 }

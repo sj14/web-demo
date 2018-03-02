@@ -3,8 +3,6 @@ package profilectl
 import (
 	"net/http"
 
-	"strconv"
-
 	"log"
 
 	"github.com/sj14/web-demo/usecases"
@@ -61,15 +59,6 @@ func (interactor *ProfileController) PostEditProfile(w http.ResponseWriter, r *h
 	// HTML Form Values
 	user.Name = r.FormValue("name")
 	user.Email = r.FormValue("email")
-	zipCodeStr := r.FormValue("zip_code")
-
-	zipCodeInt, err := strconv.ParseInt(zipCodeStr, 10, 64)
-	if err != nil {
-		interactor.Cookie.AddFlashDanger(w, r, "Error while saving the data")
-		http.Redirect(w, r, "/profile/edit", http.StatusSeeOther)
-		return
-	}
-	user.ZipCode = zipCodeInt
 
 	err = interactor.UserUsecases.UpdateUserExceptPassword(user)
 	if err == usecases.ErrEmailInUse {

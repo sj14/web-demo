@@ -23,7 +23,6 @@ func (s *PostgresStore) StoreUser(user domain.User) (userID int64, err error) {
 			"is_disabled,"+
 			"email_token,"+
 			"email_verified,"+
-			"zip_code,"+
 			"created_at,"+
 			"updated_at,"+
 			"failed_logins)"+
@@ -35,7 +34,6 @@ func (s *PostgresStore) StoreUser(user domain.User) (userID int64, err error) {
 			":is_disabled,"+
 			":email_token,"+
 			":email_verified,"+
-			":zip_code,"+
 			":created_at,"+
 			":updated_at,"+
 			":failed_logins)"+
@@ -70,16 +68,14 @@ func (s *PostgresStore) UpdateUserExceptPassword(user domain.User) error {
 			"is_disabled = $3,"+
 			"email_token = $4,"+
 			"email_verified = $5,"+
-			"zip_code = $6,"+
-			"created_at = $7,"+
-			"failed_logins = $8"+ // no commata!
-			"WHERE id = $9",
+			"created_at = $6,"+
+			"failed_logins = $7"+ // no commata!
+			"WHERE id = $8",
 		user.Name,
 		user.Email,
 		user.IsDisabled,
 		user.EmailToken,
 		user.EmailVerified,
-		user.ZipCode,
 		user.CreatedAt,
 		user.FailedLogins,
 		user.ID)

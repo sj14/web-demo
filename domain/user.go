@@ -11,7 +11,6 @@ type User struct {
 	IsDisabled    bool      `db:"is_disabled"`
 	EmailVerified bool      `db:"email_verified"`
 	EmailToken    string    `db:"email_token"`
-	ZipCode       int64     `db:"zip_code"`
 	FailedLogins  int       `db:"failed_logins"`
 	LastLogin     time.Time `db:"last_login"`
 	CreatedAt     time.Time `db:"created_at"`

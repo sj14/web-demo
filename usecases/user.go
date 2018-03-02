@@ -33,7 +33,7 @@ type userRepositoryInterface interface {
 // TODO: Validate mail address (is there an "@", etc.)
 var ErrEmailInUse = errors.New("The mail address is already registered")
 
-func (interactor *UserUsecases) CreateUser(name, email, passwordPlain string, zipCode int64) (id int64, err error) {
+func (interactor *UserUsecases) CreateUser(name, email, passwordPlain string) (id int64, err error) {
 
 	// Verify Plain Password Complexity
 	err = interactor.validatePasswordRules(passwordPlain)
@@ -59,7 +59,6 @@ func (interactor *UserUsecases) CreateUser(name, email, passwordPlain string, zi
 		IsDisabled:    false,
 		EmailVerified: false,
 		EmailToken:    emailToken,
-		ZipCode:       zipCode,
 		FailedLogins:  0,
 		LastLogin:     time.Now(),
 		CreatedAt:     time.Now(),
