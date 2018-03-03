@@ -93,12 +93,12 @@ func (interactor *UserUsecases) validateUserExceptPassword(user domain.User) err
 	user.Email = strings.ToLower(user.Email)
 
 	// Check if email is already used
-	// mailAlreadyUsedUserID, err := interactor.FindUserIdByEmail(user.Email)
-	// if err == nil && mailAlreadyUsedUserId != user.Id {
-	// 	// Email is in use by another user, otherwise there would be an error,
-	// 	// that email was not found
-	// 	return ErrEmailInUse
-	// }
+	mailAlreadyUsedUserID, err := interactor.FindUserIdByEmail(user.Email)
+	if err == nil && mailAlreadyUsedUserID != user.ID {
+		// Email is in use by another user, otherwise there would be an error,
+		// that email was not found
+		return ErrEmailInUse
+	}
 
 	return nil
 }
