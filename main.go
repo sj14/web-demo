@@ -18,9 +18,8 @@ import (
 	"github.com/sj14/web-demo/usecases"
 )
 
-const projectName = "sj-web-demo"
-
 type config struct {
+	projectName  string
 	inProduction bool
 	port         string
 	dbURL        string
@@ -34,6 +33,7 @@ var cfg = &config{}
 func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
+	cfg.projectName = "sj-web-demo"
 	cfg.port = getenv("PORT", "8080")
 	cfg.dbURL = getenv("DATABASE_URL", "user=postgres password=example dbname=demo sslmode=disable")
 	cfg.sys = getenv("SYS", "DEV")
@@ -42,7 +42,6 @@ func init() {
 		cfg.inProduction = true
 	}
 	cfg.dataDir = getenv("DATA_DIR", "data") // e.g. uploaded files
-
 	log.Println("CONFIG:", cfg)
 }
 
@@ -56,7 +55,7 @@ func main() {
 	postUsecases := usecases.NewPostUsecases(postgresRepo)
 	imageUsecases := usecases.NewImageUsecases(fsRepo)
 
-	cookieStore, err := sessions.NewCookie(projectName, []byte(cfg.cookiePass))
+	cookieStore, err := sessions.NewCookie(cfg.projectName, []byte(cfg.cookiePass))
 	if err != nil {
 		log.Fatal("Not able to create CookieStore: ", err)
 	}
@@ -75,7 +74,7 @@ func main() {
 		postCtl,
 		graphqlCtl,
 		[]byte("asd"),
-		projectName,
+		cfg.projectName,
 		cfg.inProduction,
 	)
 
