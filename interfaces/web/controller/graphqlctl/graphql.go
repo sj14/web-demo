@@ -23,8 +23,8 @@ func (interactor *GraphQLController) queryType() *graphql.Object {
 				"hello": &graphql.Field{
 					Type: graphql.String,
 					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-						return "World", nil
-
+						// return "World", nil
+						return interactor.PostUsecases.FindNewestPosts(10, 0)
 					},
 				},
 			},

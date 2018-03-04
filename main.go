@@ -20,35 +20,43 @@ import (
 
 const projectName = "sj-web-demo"
 
-var (
+type config struct {
 	inProduction bool
 	port         string
 	dbURL        string
 	cookiePass   string
 	sys          string
-)
+	dataDir      string
+}
+
+var cfg = &config{}
 
 func init() {
-	port = getenv("PORT", "8080")
-	dbURL = getenv("DATABASE_URL", "user=postgres password=example dbname=demo sslmode=disable")
-	sys = getenv("SYS", "DEV")
-	cookiePass = getenv("COOKIE_PASS", "CHANGEMECHANGEMECHANGEME")
-	if sys == "PROD" {
-		inProduction = true
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	cfg.port = getenv("PORT", "8080")
+	cfg.dbURL = getenv("DATABASE_URL", "user=postgres password=example dbname=demo sslmode=disable")
+	cfg.sys = getenv("SYS", "DEV")
+	cfg.cookiePass = getenv("COOKIE_PASS", "CHANGEMECHANGEMECHANGEME")
+	if cfg.sys == "PROD" {
+		cfg.inProduction = true
 	}
+	cfg.dataDir = getenv("DATA_DIR", "data") // e.g. uploaded files
+
+	log.Println("CONFIG:", cfg)
 }
 
 func main() {
-	postgresRepo := postgres.NewPostgresStore(dbURL)
+	postgresRepo := postgres.NewPostgresStore(cfg.dbURL)
 	defer postgresRepo.CloseConn()
 
-	fsRepo := filesystem.NewFilesystemStore()
+	fsRepo := filesystem.NewFilesystemStore(cfg.dataDir)
 
 	userUsecases := usecases.NewUserUsecases(postgresRepo)
 	postUsecases := usecases.NewPostUsecases(postgresRepo)
 	imageUsecases := usecases.NewImageUsecases(fsRepo)
 
-	cookieStore, err := sessions.NewCookie(projectName, []byte(cookiePass))
+	cookieStore, err := sessions.NewCookie(projectName, []byte(cfg.cookiePass))
 	if err != nil {
 		log.Fatal("Not able to create CookieStore: ", err)
 	}
@@ -68,12 +76,12 @@ func main() {
 		graphqlCtl,
 		[]byte("asd"),
 		projectName,
-		inProduction,
+		cfg.inProduction,
 	)
 
 	routerInteractor.InitializeRoutes(router)
-	log.Println("listening on port " + port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Println("listening on port " + cfg.port)
+	log.Fatal(http.ListenAndServe(":"+cfg.port, nil))
 }
 
 // https://stackoverflow.com/a/40326580/7125878

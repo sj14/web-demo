@@ -8,17 +8,16 @@ import (
 )
 
 type FilesystemStore struct {
+	basePath string
 }
 
-func NewFilesystemStore() *FilesystemStore {
-	fsStore := &FilesystemStore{}
+func NewFilesystemStore(basePath string) *FilesystemStore {
+	fsStore := &FilesystemStore{basePath}
 	return fsStore
 }
 
-const basePath = "../userdata_test/"
-
 func (interactor *FilesystemStore) StoreFile(filePath string, dat []byte) error {
-	fullPath := basePath + filePath
+	fullPath := interactor.basePath + filePath
 	dirPath := filepath.Dir(fullPath)
 
 	err := os.MkdirAll(dirPath, 0700)
@@ -36,7 +35,7 @@ func (interactor *FilesystemStore) StoreFile(filePath string, dat []byte) error 
 }
 
 func (interactor *FilesystemStore) RetrieveFile(filePath string) ([]byte, error) {
-	dat, err := ioutil.ReadFile(basePath + filePath)
+	dat, err := ioutil.ReadFile(interactor.basePath + filePath)
 	if err != nil {
 		return []byte{}, err
 	}
