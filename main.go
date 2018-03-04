@@ -9,6 +9,7 @@ import (
 	"github.com/sj14/web-demo/infrastructure/repositories/blobs/filesystem"
 	"github.com/sj14/web-demo/infrastructure/repositories/database/postgres"
 	"github.com/sj14/web-demo/interfaces/web/controller"
+	"github.com/sj14/web-demo/interfaces/web/controller/graphqlctl"
 	"github.com/sj14/web-demo/interfaces/web/controller/mainctl"
 	"github.com/sj14/web-demo/interfaces/web/controller/postctl"
 	"github.com/sj14/web-demo/interfaces/web/controller/profilectl"
@@ -56,6 +57,7 @@ func main() {
 	profileCtl := profilectl.NewProfileController(mainCtl)
 	userCtl := userctl.NewUserController(mainCtl)
 	postCtl := postctl.NewPostController(mainCtl)
+	graphqlCtl := graphqlctl.NewGraphQLController(mainCtl)
 
 	router := mux.NewRouter()
 	routerInteractor := controller.NewRouterInteractor(
@@ -63,6 +65,7 @@ func main() {
 		profileCtl,
 		userCtl,
 		postCtl,
+		graphqlCtl,
 		[]byte("asd"),
 		projectName,
 		inProduction,

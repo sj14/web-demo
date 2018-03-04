@@ -8,7 +8,7 @@ import (
 
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
-	"github.com/sj14/web-demo/interfaces/graphql"
+	"github.com/sj14/web-demo/interfaces/web/controller/graphqlctl"
 	"github.com/sj14/web-demo/interfaces/web/controller/mainctl"
 	"github.com/sj14/web-demo/interfaces/web/controller/postctl"
 	"github.com/sj14/web-demo/interfaces/web/controller/profilectl"
@@ -20,6 +20,7 @@ func NewRouterInteractor(
 	profileController profilectl.ProfileController,
 	userController userctl.UserController,
 	postController postctl.PostController,
+	GraphQLController graphqlctl.GraphQLController,
 	csrfTokenSecret []byte,
 	projectName string,
 	inProductionMode bool,
@@ -30,6 +31,7 @@ func NewRouterInteractor(
 		profileController,
 		userController,
 		postController,
+		GraphQLController,
 		csrfTokenSecret,
 		projectName,
 		inProductionMode}
@@ -40,6 +42,7 @@ type RouterInteractor struct {
 	profileController profilectl.ProfileController
 	userController    userctl.UserController
 	postController    postctl.PostController
+	graphQLController graphqlctl.GraphQLController
 	csrfTokenSecret   []byte
 	projectName       string
 	inProductionMode  bool
@@ -108,7 +111,7 @@ func (interactor *RouterInteractor) InitializeRoutes(router *mux.Router) {
 	router.HandleFunc("/post/{id:[0-9]+}", interactor.postController.ShowPost).Methods(http.MethodGet)
 
 	router.HandleFunc("/graphql", func(w http.ResponseWriter, r *http.Request) {
-		result := webdemogql.ExecuteQuery(r.URL.Query().Get("query"), webdemogql.Schema)
+		result := interactor.graphQLController.ExecuteQuery(r.URL.Query().Get("query"), interactor.graphQLController.Schema())
 		json.NewEncoder(w).Encode(result)
 	})
 }
