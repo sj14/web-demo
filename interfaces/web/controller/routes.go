@@ -101,6 +101,7 @@ func (interactor *RouterInteractor) InitializeRoutes(router *mux.Router) {
 	router.HandleFunc("/profile/edit", interactor.profileController.ShowEditProfile).Methods(http.MethodGet)            // TODO: Authentication
 	router.HandleFunc("/profile/edit", interactor.profileController.PostEditProfile).Methods(http.MethodPost)           // TODO: Authentication
 	router.HandleFunc("/profile/edit/password", interactor.profileController.PostEditPassword).Methods(http.MethodPost) // TODO: Authentication
+	router.HandleFunc("/profile/picture", interactor.profileController.PostPicture).Methods(http.MethodPost)            // TODO: Authentication
 
 	router.HandleFunc("/user/{id:[0-9]+}", interactor.userController.ShowUser).Methods(http.MethodGet)
 	router.HandleFunc("/user/{id:[0-9]+}/posts", interactor.postController.GetPostsList).Methods(http.MethodGet)
