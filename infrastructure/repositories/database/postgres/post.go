@@ -41,8 +41,8 @@ func (s *PostgresStore) StorePost(post domain.Post) (postID int64, err error) {
 		rows.Scan(&id)
 	}
 	if id == 0 {
-		return -1, errors.New("Failed to retrieve post id")
 		tx.Rollback()
+		return -1, errors.New("Failed to retrieve post id")
 	}
 
 	// Everything went fine, commit changes to database

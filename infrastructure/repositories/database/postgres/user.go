@@ -51,8 +51,8 @@ func (s *PostgresStore) StoreUser(user domain.User) (userID int64, err error) {
 		rows.Scan(&id)
 	}
 	if id == 0 {
-		return -1, errors.New("Failed to retrieve user id")
 		tx.Rollback()
+		return -1, errors.New("Failed to retrieve user id")
 	}
 
 	// Everything went fine, commit changes to database
@@ -110,7 +110,7 @@ func (s *PostgresStore) FindUserIdByEmail(email string) (int64, error) {
 
 	err := s.conn.QueryRow("SELECT id FROM users WHERE email = $1", email).Scan(&idFromDB)
 	if err != nil {
-		log.Println("Error in query FindUserByEmail: %v", err)
+		log.Printf("Error in query FindUserByEmail: %v", err)
 		return -1, err
 	}
 	return idFromDB, nil

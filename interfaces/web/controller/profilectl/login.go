@@ -58,7 +58,7 @@ func (interactor *ProfileController) PostLogin(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	log.Println("Trying to login with user: %v", user)
+	log.Printf("Trying to login with user: %v", user)
 
 	// Check the password
 	match, err := interactor.UserUsecases.LoginUser(user.ID, details.PasswordPlain)
