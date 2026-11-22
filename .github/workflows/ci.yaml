@@ -1,0 +1,26 @@
+# Runs the tests, go vet and the build on every push to master, on Renovate's update
+# branches (Renovate merges them once this passes) and on pull requests.
+name: CI
+
+on:
+  push:
+    branches: [master, "renovate/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: stable
+      - name: Test
+        run: go test ./...
+      - name: Vet
+        run: go vet ./...
+      - name: Build
+        run: go build ./...
